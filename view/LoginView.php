@@ -1,4 +1,6 @@
 <?php
+///home/a7642829/public_html/
+require_once("/home/a7642829/public_html/model/LogInModel.php");
 
 class LoginView {
 	private static $login = 'LoginView::Login';
@@ -10,7 +12,11 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
-	
+    private $model;
+
+    public function __construct(LogInModel $model){
+        $this->model = $model;
+    }
 
 	/**
 	 * Create HTTP response
@@ -19,11 +25,79 @@ class LoginView {
 	 *
 	 * @return  void BUT writes to standard output and cookies!
 	 */
+    public function isLoggedin(){
+        return $this->model->isLoggedin();
+    }
+
 	public function response() {
-		$message = '';
+
+        $oldname = "";
+        $message = '';
+
+        if(isset($_POST["LoginView::Logout"])){
+            if($this->model->isLoggedin() == true){
+                $message = "Bye bye!";
+            }
+            unset($_COOKIE["LoginView::CookieName"]);
+            unset($_COOKIE["LoginView::CookiePassword "]);
+            $this->model->logOut();
+        }
+
+        if($this->model->isLoggedin() == true){
+            return $this->generateLogoutButtonHTML($message);
+        }
+
+        else if(isset($_COOKIE["LoginView::CookieName"]) && isset($_COOKIE["LoginView::CookiePassword"])){
+            if($this->model->LogIn($_COOKIE["LoginView::CookieName"], $_COOKIE["LoginView::CookiePassword"]) === true){
+                $message = "Welcome back with cookie";
+                return $this->generateLogoutButtonHTML($message);
+            }
+            else{
+                $message = "Wrong information in cookies";
+                $response = $this->generateLoginFormHTML($message, $oldname);
+            }
+
+        }
+
 		
-		$response = $this->generateLoginFormHTML($message);
+        if(!empty($_POST["LoginView::UserName"])){
+			$oldname = $_POST["LoginView::UserName"];
+		}
+
+        if(isset($_POST["LoginView::Login"])){
+            
+            if(empty($_POST["LoginView::UserName"])){
+                $message = 'Username is missing';
+            }
+
+            else if(empty($_POST["LoginView::Password"])){
+                $message = 'Password is missing';
+            }
+
+            else if($this->model->LogIn($_POST["LoginView::UserName"], $_POST["LoginView::Password"]) === false){
+                $message = 'Wrong name or password';
+            }
+
+            else if($this->model->LogIn($_POST["LoginView::UserName"], $_POST["LoginView::Password"]) === true){
+
+                if(isset($_POST['LoginView::KeepMeLoggedIn'])){
+                    setcookie("LoginView::CookieName", $_POST["LoginView::UserName"], time() + (60 * 5));
+                    setcookie("LoginView::CookiePassword", $_POST["LoginView::Password"], time() + (60 * 5));
+
+                    $message = 'Welcome and you will be remembered';
+                    return $this->generateLogoutButtonHTML($message);
+                }
+
+                $message = 'Welcome';
+                return $this->generateLogoutButtonHTML($message);
+            }
+        }
+
+		$response = $this->generateLoginFormHTML($message, $oldname);
 		//$response .= $this->generateLogoutButtonHTML($message);
+
+
+
 		return $response;
 	}
 
@@ -46,7 +120,7 @@ class LoginView {
 	* @param $message, String output message
 	* @return  void, BUT writes to standard output!
 	*/
-	private function generateLoginFormHTML($message) {
+	private function generateLoginFormHTML($message, $oldname) {
 		return '
 			<form method="post" > 
 				<fieldset>
@@ -54,7 +128,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value= "' . $oldname . '" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
