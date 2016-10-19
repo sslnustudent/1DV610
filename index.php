@@ -5,6 +5,7 @@ require_once('view/LoginView.php');
 require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
 require_once('model/LogInModel.php');
+require_once('controller/LoginController.php');
 
 session_start();
 $_SESSION["visits"] = 0;
@@ -14,12 +15,13 @@ ini_set('display_errors', 'On');
 
 //CREATE OBJECTS OF THE VIEWS
 
-$m = new LogInModel();
+$loginModel = new LogInModel();
 
-$v = new LoginView($m);
-$dtv = new DateTimeView();
-$lv = new LayoutView();
+$loginView = new LoginView($loginModel);
+$dateTimeView = new DateTimeView();
+$layoutView = new LayoutView($dateTimeView);
+$loginController = new LoginController($loginView, $layoutView, $loginModel);
 
+$loginController->run();
 
-$lv->render(false, $v, $dtv);
 

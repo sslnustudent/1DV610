@@ -1,24 +1,17 @@
 <?php
-/////home/a7642829/public_html/
+
 require_once("model/LogInModel.php");
 
 class LayoutView {
   
-  public function render($isLoggedIn, LoginView $v, DateTimeView $dtv) {
+  private $dateTimeView;
 
-     // $v->response();
+  public function __construct(DateTimeView $dateTimeView){
+      $this->dateTimeView = $dateTimeView;
+  }
 
-     $e2 = '
-          
-          <div class="container">
-              ' . $v->response() . '
-              
-              ' . $dtv->show() . '
-          </div>
-         </body>
-      </html>
-    ';
-    $e1 = '<!DOCTYPE html>
+  public function render($isLoggedIn, $message) {
+    echo '<!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
@@ -26,9 +19,16 @@ class LayoutView {
         </head>
         <body>
           <h1>Assignment 2</h1>
-          ' . $this->renderIsLoggedIn($v->isLoggedin());
-
-    echo $e1 . $e2;                                                          
+          ' . $this->renderIsLoggedIn($isLoggedIn) . '
+          
+          <div class="container">
+              ' . $message . '
+              
+              ' . $this->dateTimeView->show() . '
+          </div>
+         </body>
+      </html>
+    ';                                                    
   }
   
   private function renderIsLoggedIn($isLoggedIn) {

@@ -1,34 +1,36 @@
 <?php
 
 class LogInModel{
-    private $user;
+    private $userName;
     private $password;
+    private $textFile;
+    private $sessionName;
 
+    // TODO: Implement a proper storage of username and password in a database or a text file.
     public function __construct(){
-        $this->user = "Admin101";
+        $this->userName = "Admin101";
         $this->password = "pass101";
+        $this->textFile = "CookiePassword.txt";
+        $this->sessionName = "LoggedIn";
     }
 
-    public function LogIn($user, $password){
+    public function LogIn($userName, $password){
         
-        if($user === $this->user && $password === $this->password){
-            $_SESSION["LoggedIn"] = 1;
+        if($userName === $this->userName && $password === $this->password){
+            $_SESSION[$this->sessionName] = true;
             return true;
         }
-
-        else if($user === $this->user && $password === md5($this->password)){
-            $_SESSION["LoggedIn"] = 1;
+        else if($userName === $this->userName && $password === $this->readFromTextFile()){
+            $_SESSION[$this->sessionName] = true;
             return true;
         }
-
         else{
             return false;
         }
-
     }
 
     public function isLoggedin(){
-        if(isset($_SESSION["LoggedIn"]) == true){
+        if(isset($_SESSION[$this->sessionName]) == true){
             return true;
         }
         else{
@@ -37,7 +39,30 @@ class LogInModel{
     }
 
     public function logOut(){
-        unset($_SESSION["LoggedIn"]);
+        unset($_SESSION[$this->sessionName]);
     }
+
+    public function readFromTextFile(){
+        return file_get_contents($this->textFile);
+    }
+
+    public function writeToTextFile($cookiePassword){
+        file_put_contents($this->textFile, $cookiePassword);
+    }
+
+    public function randomStringGenerator(){
+        $characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+        $string = '';
+
+        $max = strlen($characters) - 1;
+        for($i = 1; $i < 20; $i++){
+            $string .= $characters[mt_rand(0, $max)];
+        }
+
+        return $string;
+    }
+
+    //TODO: Implement a function for adding a user
 
 }
