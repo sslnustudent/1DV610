@@ -1,2 +1,6 @@
-# Login_1DV608
-Interface repository for 1DV608 assignment 2 and 4
+Version av php: 5.2
+
+Testfall uppfylda: 1.1 till 3.5
+
+Testfall ej uppfylda: 3.6 till 4.11
+

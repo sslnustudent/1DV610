@@ -14,8 +14,8 @@ class LoginView {
 
     private $loginModel;
 
-    public function __construct(LogInModel $model){
-        $this->loginModel = $model;
+    public function __construct(LogInModel $loginModel){
+        $this->loginModel = $loginModel;
     }
 
 	/**
@@ -27,12 +27,7 @@ class LoginView {
 	 */
 
     public function logOut(){
-        if(isset($_POST[self::$logout])){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return isset($_POST[self::$logout]);
     }
 
     public function logoutMessage(){
@@ -43,12 +38,7 @@ class LoginView {
     }
 
     public function loginWithCookies(){
-        if(isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
     }
 
     public function loginWithCookiesMessage(){
@@ -61,12 +51,7 @@ class LoginView {
     }
 
     public function login(){
-        if(isset($_POST[self::$login])){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return isset($_POST[self::$login]);
     }
 
 	public function loginMessage() {
