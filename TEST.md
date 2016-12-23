@@ -127,7 +127,99 @@ __Output__
 
 ### Test case 2.1
 
+Stop the server.
 
+The server should not be active.
+
+__Input__
+
+* Start server
+* Stop the server
+
+__Output__
+
+* The server should stop
+* A note that the server have been stopped should be in the access log
+
+### Test Case 3.1
+
+Access the shared resourceson the server from an browser
+
+The system delivers the shared resources to the browser and a note is written in the access log.
+
+__Input__
+
+* Start server
+* Go to localhost and view shared resources
+
+__Output__
+
+* Resourcesis shown
+* A success note is written in the Access log
+
+### Test Case 3.2
+
+Access the shared resources thats not there.
+
+Should recive resource not found error.
+
+__Input__
+
+* Start server
+* Go to localhost and view shared resources that are not there
+
+__Output__
+
+* 404 Not found error is shown
+* A failure note is written in the Access log
+
+### Test Case 3.3
+
+Access the shared resources that are outside the shared container.
+
+Should recive resource is forbidden.
+
+__Input__
+
+* Start server
+* Go to localhost and atempt to view resources outside the shared container
+
+__Output__
+
+* 403 Forbidden error is shown
+* A failure note is written in the Access log
+
+### Test Case 3.4
+
+Atempt to access resource with invalid or malformed request.
+
+Should recive that request could not be handled.
+
+__Input__
+
+* Start server
+* Go to localhost and atempt to view resources with invalid requests
+
+__Output__
+
+* 400 Bad request error is shown
+* A failure note is written in the Access log
+
+### Test Case 3.5
+
+Atempt to access resource and server encounters an error,
+
+Should recive message about internall error
+
+__Input__
+
+* Start server
+* Go to localhost and atempt to view resources with an introdused error to server
+
+__Output__
+
+* Internal error message should be shown
+* A failure note is written in the Access log
 
 ---
 
