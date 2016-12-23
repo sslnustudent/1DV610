@@ -60,9 +60,9 @@ All responsibilities are distributed to Tester #1, as this is a one man crew.
 
 ## Test Cases
 
-###### Test case 1.1
+__Test__ __case__ __1.1__
 
-###### Test case 1.2
+__Test case 1.2__
 
 ## Test Results
 
