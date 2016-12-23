@@ -58,36 +58,77 @@ All responsibilities are distributed to Tester #1, as this is a one man crew.
 
 ---
 
-## Test Cases
+## Manual Test Cases
 
-__Test__ __case__ __1.1__
+### Test case 1.1
 
-__Test case 1.2__
+Normal activation of server, server starts.
+
+Server starts on given port and presents that the server has been started, a note is written in the access log.
+
+__Input:__
+
+* An available port
+* The adress to the folder
+
+__Output:__
+
+* The server has started
+* A note is written in the access log
+
+### Test case 1.2
+
+Atempt to start server with non-available port.
+
+Server should not start and an error message about port already taken.
+
+__Input__
+
+* An non-available port
+* The adress to the folder
+
+__Output__
+
+* The server should not start
+* Recives error message "Socket XX was taken"
+
+### Test case 1.3
+
+Atempt to start server with a the resource container that is restricted.
+
+Server should not start and an error message about no access to the folder
+
+__Input__
+
+* An available port
+* The adress to an restricted folder
+
+__Output__
+
+* The server should not start
+* Recives error message "“No access to folder XX"
+
+### Test case 1.4
+
+Normal activation without the access log.
+
+Server should not start and recive error message.
+
+__Input__
+
+* An available port
+* The adress to the folder
+* Remove log.txt
+
+__Output__
+
+* The server should not start
+* An error message "Cannot write to server log file log.txt" should appear
+
+### Test case 2.1
+
+
+
+---
 
 ## Test Results
-
-Testing more
-
-Test Lista:
-
-* T1
-* T2
-* T3
-
-Lista 2 med nummer
-
-1.1. T4
-1.2. T5
-
-1,3. T4.1
-1,4. T4.2
-
-Test Lista 3
-
-+ T6
-+ T7
-+ T8
-
----
-### Test
----
