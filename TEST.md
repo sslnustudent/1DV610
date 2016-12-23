@@ -60,6 +60,10 @@ All responsibilities are distributed to Tester #1, as this is a one man crew.
 
 ## Test Cases
 
+###### Test case 1.1
+
+###### Test case 1.2
+
 ## Test Results
 
 Testing more
